@@ -6,20 +6,18 @@ interface Props {
   selectedId: string;
   allGoddesses: Goddess[];
   onSelect: (goddess: Goddess) => void;
-  isRTL?: boolean;
 }
 
 const SelectionBar: React.FC<Props> = ({ 
   selectedId, 
   allGoddesses, 
-  onSelect,
-  isRTL = false
+  onSelect 
 }) => {
   return (
-    <div className={`fixed top-0 bottom-0 w-48 z-50 flex flex-col justify-center ${isRTL ? 'left-0 items-start pl-8' : 'right-0 items-end pr-8'}`}>
-      <div className={`absolute top-24 bottom-24 w-[1px] bg-white/[0.03] ${isRTL ? 'left-12' : 'right-12'}`} />
+    <div className="fixed right-0 top-0 bottom-0 w-48 z-50 flex flex-col justify-center items-end pr-8">
+      <div className="absolute right-12 top-24 bottom-24 w-[1px] bg-white/[0.03]" />
       
-      <div className={`flex flex-col gap-7 max-h-[80vh] overflow-y-auto no-scrollbar py-6 ${isRTL ? 'pl-4' : 'pr-4'}`}>
+      <div className="flex flex-col gap-7 max-h-[80vh] overflow-y-auto no-scrollbar py-6 pr-4">
         {allGoddesses.map((g, index) => {
           const isActive = selectedId === g.id;
           // 获取中文名作为导航展示
@@ -29,13 +27,9 @@ const SelectionBar: React.FC<Props> = ({
             <div 
               key={g.id}
               onClick={() => onSelect(g)}
-              className={`group relative flex items-center gap-5 cursor-pointer ${isRTL ? 'flex-row-reverse' : 'justify-end'}`}
+              className="group relative flex items-center justify-end gap-5 cursor-pointer"
             >
-              <div className={`transition-all duration-1000 whitespace-nowrap ${
-                isActive 
-                  ? 'opacity-100 translate-x-0' 
-                  : (isRTL ? 'opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0' : 'opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0')
-              }`}>
+              <div className={`transition-all duration-1000 whitespace-nowrap ${isActive ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0'}`}>
                 <span className={`text-[13px] font-medium tracking-[0.4em] ${isActive ? 'text-amber-500' : 'text-white/40 group-hover:text-white'}`}>
                   {displayName}
                 </span>

@@ -14,6 +14,7 @@ export interface LocalizedContent {
 export interface Goddess {
   id: string;
   image: string;
+  plaqueImage: string;
   samples?: string[];
   localUrl?: string; 
   pvUrl?: string;    

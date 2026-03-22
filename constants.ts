@@ -1,29 +1,45 @@
 
 import { Goddess, Language } from './types';
 
+export const BASE_IMAGE_URL = 'https://cdn.jsdelivr.net/gh/a58293/bjdinf@main/public'; // 替换为您的 GitHub Raw 地址或 CDN 地址
+
+// ==========================================
+// 第一部分：通用 UI 界面文案
+// ==========================================
 export const UI_TRANSLATIONS: Record<Language, any> = {
   zh: {
-    nav: ['造境', '契约', '灵筑', '传音'],
+    // [修改此处] 顶部导航栏 (对应左下角 01-04 按钮)
+    nav: ['花境', '花约', '灵筑', '传音'],
+    
+    // [修改此处] 顶部右上角视图切换
     viewGoddess: '花神卷',
     viewAngel: '天使卷',
-    openArchive: '开启 · 芳华录',
-    detailLabel: '芳华录',
-    artifacts: '样品图鉴',
-    enterRealm: '入梦 · 幻境', // 统一改为“入梦”，适应视频和网页
-    visitShop: '结缘 · 旗舰店',
-    close: '封存画卷',
+    
+    // [修改此处] 首页核心按钮
+    openArchive: '开启 · 芳华录', // 首页中间的大按钮
+    
+    // [修改此处] 详情页内部标签
+    detailLabel: '芳华录',      // 详情页左上角小标题
+    artifacts: '样品图鉴',      // 详情页右侧素材栏标题
+    enterRealm: '入梦 · 幻境',  // 播放视频按钮
+    visitShop: '结缘 · 旗舰店', // 购买按钮
+    close: '封存画卷',          // 关闭详情页按钮
+    
+    // [修改此处] 购买弹窗 (ShopModal) 文案
+    shopSelectTitle: '选择结缘路径',
+    shopSelectSub: '请选择通往花境的方式',
+    regionDomestic: '中土 · 花境之门',      // 国内选项标题
+    regionInternational: '远传 · 云外之路', // 国际选项标题
+    taobaoHint: '进入官方典藏页',     // 国内选项副标题
+    paypalHint: '通过 PayPal 进入花境', // 国际选项副标题
+    digitalPack: '花神典藏',      // 商品图片上的标签
+    price: '结缘价',                   // 价格标签
+    securePayment: '安全支付加密环境已开启',
+    paymentGuide: '国际支付通道目前正在维护升级中，暂无法使用。请稍后重试或通过邮件联系我们。',
+
+    // 其他杂项
     detect: '探测画卷之微毫',
     lang: '语源',
-    shopSelectTitle: '选择结缘路径',
-    shopSelectSub: '请根据您的所在地选择合适的通道',
-    regionDomestic: '中土 · 溯源',
-    regionInternational: '海外 · 远传',
-    taobaoHint: '跳转至淘宝旗舰店',
-    paypalHint: '使用 PayPal 开启国际支付通道',
-    digitalPack: '数字典藏资产包',
-    price: '结缘价',
-    securePayment: '安全支付加密环境已开启',
-    paymentGuide: '国际支付通道目前正在维护升级中，暂无法使用。请稍后重试或通过邮件联系我们。'
   },
   en: {
     nav: ['Origin', 'Pact', 'Build', 'Call'],
@@ -142,37 +158,62 @@ export const UI_TRANSLATIONS: Record<Language, any> = {
   }
 };
 
+// 辅助函数：快速生成多语言对象
 const commonLangs = (name: string, title: string, flower: string, desc: string, short: string, waiting: string) => ({
   name, title, flower, description: desc, shortDesc: short, waitingMessage: waiting
 });
 
+// ==========================================
+// 第二部分：花神具体数据
+// ==========================================
 export const GODDESS_DATA: Goddess[] = [
-  // --- Index 0: 百花女神 (天使卷) ---
+  // ----------------------------------------------------------------
+  // Index 0: 百花女神 (位于十二花神之前)
+  // ----------------------------------------------------------------
   {
     id: 'hundred-flowers',
-    image: './goddess-hundred.jpg', // 请在 public 文件夹放入名为 goddess-hundred.jpg 的图片
-    samples: ['./sample-hundred-1.jpg', './sample-hundred-2.jpg', './sample-hundred-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-hundred.webp`, 
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-hundred.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-hundred-1.webp`, `${BASE_IMAGE_URL}/sample-hundred-2.webp`, `${BASE_IMAGE_URL}/sample-hundred-3.webp`, `${BASE_IMAGE_URL}/sample-hundred-4.webp`, `${BASE_IMAGE_URL}/sample-hundred-5.webp`],
     color: '#D4B3FF', 
     type: 'HUNDRED',
-    pvUrl: '', // 在此处填写您的网页链接，例如 'https://example.com'
+    pvUrl: '', 
     translations: {
-      zh: commonLangs('百花女神', '众芳之首 · 司春元君', '万卉之灵', '端坐于紫藤瀑布之下的众灵之源。她青丝如瀑，手抚琉璃竖琴，天籁琴音化作万物复苏的敕令。', '琉璃拨弦，万卉齐开。', '琴音未起，万花静待。\n此篇章机缘未至，敬请静候春音。'),
+      zh: commonLangs(
+        '百花女神', // [修改此处] 名字 (大标题)
+        '众芳之源·四时花令之主', // [修改此处] 称号 (名字上方的小字)
+        '万卉之灵', // [修改此处] 花名/核心元素 (详情页右下角)
+        '她非一季之花。\n\n紫藤垂瀑之下，她拨动琉璃竖琴。\n弦音所至，春启、夏盛、秋藏、冬寂。\n\n十二花神循序而生，\n万卉因她而开，亦因她而归。\n\n她不争艳。\n她是秩序。', // [修改此处] 详细描述 (详情页正文)
+        '一弦起，四时生', // [修改此处] 短诗/判词 (详情页标题下方的引言)
+        '花令未颁，万卉静候。' // [修改此处] 暂未开放时的弹窗提示 (\n 代表换行)
+      ),
       en: commonLangs('Goddess Flora', 'Prime of All · Spring Sovereign', 'Spirit of All Flora', 'The source of all spirits seated beneath the wisteria cascade. Her hair flows like a waterfall, her hands caress the glazed harp, and her heavenly melodies become the edict for the revival of all things.', 'Strings plucked, ten thousand flowers bloom.', 'The harp is silent, the flowers wait.\nThis chapter is not yet ready to bloom.'),
       fr: commonLangs('Déesse Flora', 'Souveraine du Printemps', 'Esprit de Toute Flore', 'La source de tous les esprits, assise sous la cascade de glycines. Ses cheveux coulent comme une chute d\'eau, ses mains caressent la harpe de cristal, et ses mélodies célestes ordonnent le renouveau de toutes choses.', 'Cordes pincées, dix mille fleurs éclosent.', 'La harpe est silencieuse, les fleurs attendent.\nCe chapitre n\'est pas encore prêt à éclore.'),
       ja: commonLangs('百花の女神', '衆芳の首 · 司春元君', '万卉の霊', '藤の滝の下に座す諸霊の源。黒髪は滝の如く、手は瑠璃の竪琴を奏で、その天籟は万物蘇生の勅令となる。', '瑠璃の弦が弾かれ、万花が一斉に開く。', '琴音未だ響かず、万花静かに待つ。\nこの章は未だ開かれず。'),
       ko: commonLangs('백화의 여신', '뭇 꽃의 으뜸 · 사춘원군', '만화의 영', '등나무 폭포 아래 앉아 있는 모든 영혼의 근원. 유리 하프를 연주하여 만물 소생의 칙령을 내린다.', '유리 현을 퉁기니 만 송이 꽃이 피어나네.', '거문고 소리 아직 들리지 않고, 꽃들은 조용히 기다리네.\n이 장은 아직 열리지 않았습니다.')
     } as any
   },
-  // --- Index 1-12: 十二花神 ---
+
+  // ----------------------------------------------------------------
+  // Index 1-12: 十二花神
+  // ----------------------------------------------------------------
   {
     id: 'plum-blossom',
-    image: './goddess-01.jpg',
-    samples: ['./sample-01-1.jpg', './sample-01-2.jpg', './sample-01-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-01.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-01.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-01-1.webp`, `${BASE_IMAGE_URL}/sample-01-2.webp`, `${BASE_IMAGE_URL}/sample-01-3.webp`, `${BASE_IMAGE_URL}/sample-01-4.webp`, `${BASE_IMAGE_URL}/sample-01-5.webp`],
     color: '#FFC1E3',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('梅花花神', '一月 · 傲雪', '梅花', '傲雪凌霜，独守孤傲。她是寒冬中最后一抹亮色，亦是新春第一缕幽香。', '一朵忽先变，百花皆后香。', '踏雪寻梅，时节未至。\n寒香尚在酝酿之中。'),
+      zh: commonLangs(
+        '梅花花神', 
+        '一月 · 傲雪', 
+        '梅花', 
+        '岁末寒深，风色清冷。\n\n天地尚静，她已开。\n红意在澄澈空气中愈显分明。\n\n她不是春。\n她是春之前的光。', 
+        '一朵忽先变，百花皆后香。', 
+        '寒香未动，冰枝尚寂。'
+      ),
       en: commonLangs('Plum Blossom', 'Jan · Frost Pride', 'Prunus Mume', 'Standing proud amidst snow and frost, guarding her solitude. She is the last vibrance of deep winter and the first fragrance of the new spring.', 'One bloom changes the season.', 'Treading snow to find the plum, but the season has not come.\nThe cold fragrance is still brewing.'),
       fr: commonLangs('Fleur de Prunier', 'Jan · Fierté du Givre', 'Prunus Mume', 'Se dressant fièrement au milieu de la neige et du givre. Elle est la dernière vibration de l\'hiver profond et le premier parfum du nouveau printemps.', 'Une fleur change la saison.', 'Marchant dans la neige pour trouver la prune, mais la saison n\'est pas venue.\nLe parfum froid infuse encore.'),
       ja: commonLangs('梅花花神', '一月 · 傲雪', '梅花', '雪霜を凌ぎ、孤高を守る。彼女は寒冬の最後の彩りにして、新春の最初の幽香である。', '一輪が先じて変じ、百花が後に香る。', '雪を踏んで梅を尋ぬるも、時節未だ至らず。\n寒香は未だ醸成の中にあり。'),
@@ -181,13 +222,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'apricot',
-    image: './goddess-02.jpg',
-    samples: ['./sample-02-1.jpg', './sample-02-2.jpg', './sample-02-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-02.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-02.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-02-1.webp`, `${BASE_IMAGE_URL}/sample-02-2.webp`, `${BASE_IMAGE_URL}/sample-02-3.webp`, `${BASE_IMAGE_URL}/sample-02-4.webp`, `${BASE_IMAGE_URL}/sample-02-5.webp`],
     color: '#FFE4E1',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('杏花花神', '二月 · 暄风', '杏花', '沾衣欲湿杏花雨，吹面不寒杨柳风。她是早春的使者，带着温润的潮汐。', '杏子梢头香蕾破，淡红抹色。', '杏花雨未落，春风尚轻柔。\n故事的篇章还在烟雨深处。'),
+      zh: commonLangs(
+        '杏花花神', 
+        '二月 · 暄风', 
+        '杏花', 
+        '薄雾微散，天色渐暖。\n\n她在清风里舒展颜色，\n柔软，却不失明朗。\n\n她是初醒的气息。', 
+        '杏子梢头香蕾破', 
+        '风未稳，雨未落。'
+      ),
       en: commonLangs('Apricot Blossom', 'Feb · Warm Breeze', 'Apricot Blossom', 'Misty rain wets the clothes, willow wind caresses the face. She is the herald of early spring, bringing gentle tides and awakening the dormant earth.', 'Pale red buds breaking on the branch.', 'The apricot rain has not fallen, the spring breeze is faint.\nThe story remains deep within the mist.'),
       fr: commonLangs('Fleur d\'Abricotier', 'Fév · Brise Chaude', 'Fleur d\'Abricotier', 'La pluie brumeuse mouille les vêtements, le vent des saules caresse le visage. Elle est la messagère du début du printemps, apportant des marées douces.', 'Bourgeons rouge pâle éclosant sur la branche.', 'La pluie d\'abricot n\'est pas tombée, la brise printanière est faible.\nL\'histoire reste au fond de la brume.'),
       ja: commonLangs('杏花花神', '二月 · 暄風', '杏花', '衣を濡らす杏花の雨、顔に吹く楊柳の風。彼女は早春の使者であり、温潤な潮汐を運んでくる。', '杏子の梢、淡紅の蕾がほころぶ。', '杏花の雨未だ落ちず、春風尚柔らかなり。\n物語は未だ煙雨の深き処にあり。'),
@@ -196,13 +245,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'peach-blossom',
-    image: './goddess-03.jpg',
-    samples: ['./sample-03-1.jpg', './sample-03-2.jpg', './sample-03-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-03.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-03.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-03-1.webp`, `${BASE_IMAGE_URL}/sample-03-2.webp`, `${BASE_IMAGE_URL}/sample-03-3.webp`, `${BASE_IMAGE_URL}/sample-03-4.webp`, `${BASE_IMAGE_URL}/sample-03-5.webp`],
     color: '#FF99AA',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('桃花花神', '三月 · 夭灼', '桃花', '桃之夭夭，灼灼其华。江南烟雨中的柔情化身。', '满树和娇烂漫红。', '桃源深处，迷雾未散。\n请待花开灼灼之时。'),
+      zh: commonLangs(
+        '桃花花神', 
+        '三月 · 夭灼', 
+        '桃花', 
+        '春意正盛。\n\n高原烟水之间，她映开人间。\n湖光微暖，山影浮动，\n一树桃红正盛。\n\n她明亮而清透，\n掌热烈与心动。\n\n她是春的正午。', 
+        '桃之夭夭，灼灼其华。', 
+        '灼灼未至，花色未浓。'
+      ),
       en: commonLangs('Peach Blossom', 'Mar · Radiant Beauty', 'Peach Blossom', 'The peach trees are young and elegant, brilliant are their flowers. She is the embodiment of tenderness in the misty rain of Jiangnan.', 'A tree full of romantic red.', 'Deep in the peach source, the mist has not cleared.\nPlease wait for the brilliant bloom.'),
       fr: commonLangs('Fleur de Pêcher', 'Mar · Beauté Radieuse', 'Fleur de Pêcher', 'Les pêchers sont jeunes et élégants, brillantes sont leurs fleurs. Elle est l\'incarnation de la tendresse dans la pluie brumeuse de Jiangnan.', 'Un arbre plein de rouge romantique.', 'Au fond de la source aux pêchers, la brume ne s\'est pas dissipée.\nAttendez la floraison brillante.'),
       ja: commonLangs('桃花花神', '三月 · 夭灼', '桃花', '桃の夭夭たる、灼灼たるその華。江南の煙雨の中にある柔情の化身。', '満樹、爛漫たる紅に染まる。', '桃源の深き処、迷霧未だ散ぜず。\n花開き灼灼たる時を待たれよ。'),
@@ -211,13 +268,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'peony',
-    image: './goddess-04.jpg',
-    samples: ['./sample-04-1.jpg', './sample-04-2.jpg', './sample-04-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-04.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-04.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-04-1.webp`, `${BASE_IMAGE_URL}/sample-04-2.webp`, `${BASE_IMAGE_URL}/sample-04-3.webp`, `${BASE_IMAGE_URL}/sample-04-4.webp`, `${BASE_IMAGE_URL}/sample-04-5.webp`],
     color: '#FF5588',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('牡丹花神', '四月 · 国色', '牡丹', '唯有牡丹真国色，花开时节动京城。繁荣与高贵的象征。', '万花之王的气象。', '国色天香，尚在蕾中。\n盛世篇章，静候开启。'),
+      zh: commonLangs(
+        '牡丹花神', 
+        '四月 · 国色', 
+        '牡丹', 
+        '天光正盛。\n\n她在广阔之中盛放，\n不需争夺，气象自成。\n花王之名，自她而定。\n\n京城风动，因她而起。\n盛世之象，自她而开。', 
+        '唯有牡丹真国色。', 
+        '国色未临，天光未盛。'
+      ),
       en: commonLangs('Peony Goddess', 'Apr · National Grace', 'Peony', 'Only the peony bears the true color of the nation; its bloom moves the entire capital. A timeless symbol of prosperity, nobility, and honor.', 'The aura of the King of Flowers.', 'The national beauty is still in the bud.\nThe chapter of prosperity awaits its opening.'),
       fr: commonLangs('Déesse Pivoine', 'Avr · Grâce Nationale', 'Pivoine', 'Seule la pivoine porte la vraie couleur de la nation ; sa floraison émeut toute la capitale. Un symbole intemporel de prospérité et de noblesse.', 'L\'aura du Roi des Fleurs.', 'La beauté nationale est encore en bouton.\nLe chapitre de la prospérité attend son ouverture.'),
       ja: commonLangs('牡丹花神', '四月 · 国色', '牡丹', '牡丹のみが真の国色、花開く時節は京城を動かす。繁栄と高貴の象徴。', '万花の王たる気象。', '国色天香、尚ほ蕾の中にあり。\n盛世の章、静かに開くを待つ。'),
@@ -226,13 +291,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'pomegranate',
-    image: './goddess-05.jpg',
-    samples: ['./sample-05-1.jpg', './sample-05-2.jpg', './sample-05-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-05.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-05.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-05-1.webp`, `${BASE_IMAGE_URL}/sample-05-2.webp`, `${BASE_IMAGE_URL}/sample-05-3.webp`, `${BASE_IMAGE_URL}/sample-05-4.webp`, `${BASE_IMAGE_URL}/sample-05-5.webp`],
     color: '#FF3300',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('石榴花神', '五月 · 榴红', '石榴', '微雨过，小荷翻。石榴花发照楼台。映红阶绿的炽火。', '五月石榴红似火。', '炽火未燃，红裙未舞。\n夏日的热情正在积蓄。'),
+      zh: commonLangs(
+        '石榴花神', 
+        '五月 · 榴火', 
+        '石榴', 
+        '夏意渐烈。\n\n她在明亮日光下燃烧，\n红意清晰而饱满。\n\n她象征丰盈与生长，\n热烈，却不张扬。', 
+        '五月石榴红似火。', 
+        '炽火未燃，红意未展。'
+      ),
       en: commonLangs('Pomegranate', 'May · Fiery Bloom', 'Pomegranate', 'After a light rain, lotus leaves turn. Pomegranate blooms illuminate the terrace like a blazing fire reflecting on green steps.', 'May pomegranates, red as fire.', 'The fire is not yet lit, the red skirt has not danced.\nThe passion of summer is accumulating.'),
       fr: commonLangs('Grenadier', 'Mai · Floraison Ardente', 'Grenadier', 'Après une pluie légère, les feuilles de lotus tournent. Les fleurs de grenadier illuminent la terrasse comme un feu ardent se reflétant sur les marches vertes.', 'Grenades de mai, rouges comme le feu.', 'Le feu n\'est pas encore allumé, la jupe rouge n\'a pas dansé.\nLa passion de l\'été s\'accumule.'),
       ja: commonLangs('石榴花神', '五月 · 榴紅', '石榴', '微雨過ぎて、小荷翻る。石榴の花は楼台を照らす。緑階に映える紅き熾火。', '五月の石榴、紅きこと火の如し。', '熾火未だ燃えず、紅裙未だ舞わず。\n夏の情熱は今まさに蓄えられん。'),
@@ -241,13 +314,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'lotus',
-    image: './goddess-06.jpg',
-    samples: ['./sample-06-1.jpg', './sample-06-2.jpg', './sample-06-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-06.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-06.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-06-1.webp`, `${BASE_IMAGE_URL}/sample-06-2.webp`, `${BASE_IMAGE_URL}/sample-06-3.webp`, `${BASE_IMAGE_URL}/sample-06-4.webp`, `${BASE_IMAGE_URL}/sample-06-5.webp`],
     color: '#AAFFD4',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('荷花花神', '六月 · 净植', '荷花', '出淤泥而不染，濯清涟而不妖。炎夏中的清凉。', '映日荷花别样红。', '清涟未起，荷风不兴。\n水面之下，故事静默。'),
+      zh: commonLangs(
+        '荷花花神', 
+        '六月 · 净植', 
+        '荷花', 
+        '盛夏渐深。\n\n湖面开阔，风过水明，\n荷叶连展至远处天光。\n\n她立于清波之上，\n洁白而沉静。\n\n在辽阔之中守一份纯净。', 
+        '出淤泥而不染。', 
+        '清涟未起，荷风未兴。'
+      ),
       en: commonLangs('Lotus Goddess', 'Jun · Pure Radiance', 'Lotus', 'Rising unsullied from the mud, bathing in clear ripples without being seductive. The touch of coolness in the scorching summer.', 'Lotus reflecting the sun, uniquely red.', 'Ripples have not risen, the lotus wind is still.\nBeneath the water, the story is silent.'),
       fr: commonLangs('Déesse Lotus', 'Juin · Éclat Pur', 'Lotus', 'S\'élevant sans souillure de la boue, se baignant dans des ondulations claires sans être séductrice. La touche de fraîcheur dans l\'été brûlant.', 'Lotus reflétant le soleil, uniquement rouge.', 'Les ondulations ne se sont pas levées, le vent du lotus est calme.\nSous l\'eau, l\'histoire est silencieuse.'),
       ja: commonLangs('荷花花神', '六月 · 浄植', '蓮華', '泥より出でて染まらず、清漣に濯われて妖ならず。炎夏の中の一抹の清涼。', '日に映える荷花、別様に紅し。', '清漣未だ起たず、荷風興らず。\n水面の下、物語は静黙す。'),
@@ -256,13 +337,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'hollyhock',
-    image: './goddess-07.jpg',
-    samples: ['./sample-07-1.jpg', './sample-07-2.jpg', './sample-07-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-07.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-07.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-07-1.webp`, `${BASE_IMAGE_URL}/sample-07-2.webp`, `${BASE_IMAGE_URL}/sample-07-3.webp`, `${BASE_IMAGE_URL}/sample-07-4.webp`, `${BASE_IMAGE_URL}/sample-07-5.webp`],
     color: '#FF00CC',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('蜀葵花神', '七月 · 凌霄', '蜀葵', '锦葵花开，直上云天。伴随骄阳起舞的骄傲。', '一丈红丝上碧霄。', '云天尚远，红丝未展。\n请待花茎直上碧霄。'),
+      zh: commonLangs(
+        '蜀葵花神', 
+        '七月 · 凌霄', 
+        '蜀葵', 
+        '骄阳之下，她直上云天。\n\n花茎挺拔，色如烈日。\n她不俯首。\n\n她象征盛夏的骄傲与不屈。', 
+        '一丈红丝上碧霄。', 
+        '红丝未展，云天尚远。'
+      ),
       en: commonLangs('Hollyhock', 'Jul · Skyward Red', 'Hollyhock', 'Hollyhocks bloom, reaching straight for the azure sky. Dancing proudly with the blazing sun, a symbol of ambition.', 'Ten feet of red silk rising to the heavens.', 'The sky is far, the red silk unfurled.\nPlease wait for the stem to reach the heavens.'),
       fr: commonLangs('Rose Trémière', 'Juil · Rouge Céleste', 'Rose Trémière', 'Les roses trémières fleurissent, s\'élançant droit vers le ciel azur. Dansant fièrement avec le soleil ardent, symbole d\'ambition.', 'Dix pieds de soie rouge s\'élevant vers les cieux.', 'Le ciel est loin, la soie rouge non déployée.\nAttendez que la tige atteigne les cieux.'),
       ja: commonLangs('蜀葵花神', '七月 · 凌霄', '蜀葵', '錦葵の花開き、直ちに雲天に上る。驕陽と共に舞う誇り高き姿。', '一丈の紅糸、碧霄に上る。', '雲天尚ほ遠く、紅糸未だ展びず。\n花茎の碧霄に直上するを待たれよ。'),
@@ -271,13 +360,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'osmanthus',
-    image: './goddess-08.jpg',
-    samples: ['./sample-08-1.jpg', './sample-08-2.jpg', './sample-08-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-08.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-08.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-08-1.webp`, `${BASE_IMAGE_URL}/sample-08-2.webp`, `${BASE_IMAGE_URL}/sample-08-3.webp`, `${BASE_IMAGE_URL}/sample-08-4.webp`, `${BASE_IMAGE_URL}/sample-08-5.webp`],
     color: '#FFE680',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('桂花花神', '八月 · 粟金', '桂花', '暗淡轻黄体性柔，情疏迹远只香留。中秋月色下的芬芳。', '金粟满枝，十里飘香。', '月色未满，金粟未香。\n中秋之约尚在途中。'),
+      zh: commonLangs(
+        '桂花花神', 
+        '八月 · 粟金', 
+        '桂花', 
+        '秋初月升，夜色温柔。\n\n她不张扬颜色，\n却以幽香动人。\n\n暗淡轻黄，香行夜色。\n她在远处。', 
+        '金粟满枝，十里飘香。', 
+        '月未满，金粟未香。'
+      ),
       en: commonLangs('Osmanthus', 'Aug · Golden Dust', 'Osmanthus', 'Pale yellow and soft in nature, distant in emotion but leaving a lingering scent. The quintessential fragrance under the Mid-Autumn moon.', 'Golden dust fills the branches, scent traveling ten miles.', 'The moon is not full, the golden dust not fragrant.\nThe Mid-Autumn promise is on its way.'),
       fr: commonLangs('Osmanthus', 'Août · Poussière d\'Or', 'Osmanthus', 'Jaune pâle et doux de nature, distant en émotion mais laissant un parfum persistant. La fragrance quintessentielle sous la lune de la mi-automne.', 'La poussière d\'or remplit les branches.', 'La lune n\'est pas pleine, la poussière d\'or non parfumée.\nLa promesse de la mi-automne est en chemin.'),
       ja: commonLangs('桂花花神', '八月 · 粟金', '金木犀', '暗淡たる軽黄、体性は柔。情は疎にして跡は遠く、ただ香のみ留む。中秋の月色の下の芳香。', '金粟枝に満ち、十里に香る。', '月色未だ満ちず、金粟未だ香らず。\n中秋の約は尚ほ途上にあり。'),
@@ -286,13 +383,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'chrysanthemum',
-    image: './goddess-09.jpg',
-    samples: ['./sample-09-1.jpg', './sample-09-2.jpg', './sample-09-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-09.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-09.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-09-1.webp`, `${BASE_IMAGE_URL}/sample-09-2.webp`, `${BASE_IMAGE_URL}/sample-09-3.webp`, `${BASE_IMAGE_URL}/sample-09-4.webp`, `${BASE_IMAGE_URL}/sample-09-5.webp`],
     color: '#FFCC66',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('菊花花神', '九月 · 归隐', '菊花', '采菊东篱下，悠然见南山。秋风中的隐者。', '宁可枝头抱香死。', '东篱未筑，秋菊未黄。\n隐逸的故事请待西风起。'),
+      zh: commonLangs(
+        '菊花花神', 
+        '九月 · 归隐', 
+        '菊花', 
+        '秋风渐深。\n\n她独立篱下，不随世流。\n寒霜逼近，花意更浓。\n\n她是隐者。', 
+        '宁可枝头抱香死。', 
+        '东篱未筑，西风未起。'
+      ),
       en: commonLangs('Chrysanthemum', 'Sep · Autumn Recluse', 'Chrysanthemum', 'Picking chrysanthemums under the eastern fence, leisurely seeing the southern mountain. The noble hermit standing in the autumn wind.', 'Rather die fragrant on the branch than fall into dust.', 'The eastern fence is unbuilt, the chrysanthemum not yellow.\nWait for the west wind for the hermit\'s tale.'),
       fr: commonLangs('Chrysanthème', 'Sep · Reclus d\'Automne', 'Chrysanthème', 'Cueillant des chrysanthèmes sous la clôture est, voyant tranquillement la montagne du sud. Le noble ermite se tenant dans le vent d\'automne.', 'Mourir parfumé sur la branche plutôt que tomber.', 'La clôture est n\'est pas construite, le chrysanthème non jaune.\nAttendez le vent d\'ouest pour le conte de l\'ermite.'),
       ja: commonLangs('菊花花神', '九月 · 帰隠', '菊', '菊を採る東籬の下、悠然として南山を見る。秋風の中の隠者。', '寧ろ枝頭に香を抱いて死すとも。', '東籬未だ築かれず、秋菊未だ黄ならず。\n隠逸の物語、西風の起つを待たれよ。'),
@@ -301,13 +406,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'cotton-rose',
-    image: './goddess-10.jpg',
-    samples: ['./sample-10-1.jpg', './sample-10-2.jpg', './sample-10-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-10.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-10.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-10-1.webp`, `${BASE_IMAGE_URL}/sample-10-2.webp`, `${BASE_IMAGE_URL}/sample-10-3.webp`, `${BASE_IMAGE_URL}/sample-10-4.webp`, `${BASE_IMAGE_URL}/sample-10-5.webp`],
     color: '#FFB2D1',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('木芙蓉花神', '十月 · 霜降', '木芙蓉', '晓妆如玉暮如霞，独立秋江对晚花。深秋的绝响。', '只有芙蓉独自芳。', '秋江水寒，芙蓉未放。\n拒霜的英姿尚在沉睡。'),
+      zh: commonLangs(
+        '木芙蓉花神', 
+        '十月 · 霜降', 
+        '木芙蓉', 
+        '秋水将寒。\n\n晨如玉，暮似霞。\n她在昼夜之间更迭颜色。\n\n拒霜而立，是秋末最后的回响。', 
+        '只有芙蓉独自芳。', 
+        '秋江水冷，霜华未至。'
+      ),
       en: commonLangs('Cotton Rose', 'Oct · Frost Defiance', 'Cotton Rose', 'Jade-like at dawn, rosy at dusk. Standing alone by the autumn river facing the evening blooms. The last song of deep autumn.', 'Only the Cotton Rose blooms alone.', 'The autumn river is cold, the hibiscus unbloomed.\nThe frost-defying figure is still asleep.'),
       fr: commonLangs('Hibiscus', 'Oct · Défi au Givre', 'Hibiscus', 'Comme du jade à l\'aube, rosé au crépuscule. Se tenant seul près de la rivière d\'automne face aux fleurs du soir. Le dernier chant de l\'automne profond.', 'Seul l\'Hibiscus fleurit en solitaire.', 'La rivière d\'automne est froide, l\'hibiscus non éclos.\nLa figure défiant le givre dort encore.'),
       ja: commonLangs('木芙蓉花神', '十月 · 霜降', '木芙蓉', '暁の粧は玉の如く、暮れは霞の如し。秋江に独立して晩花に対す。深秋の絶唱。', 'ただ芙蓉のみ独り芳し。', '秋江の水寒く、芙蓉未だ放たず。\n霜を拒む英姿は尚ほ沈睡の中にあり。'),
@@ -316,13 +429,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'camellia',
-    image: './goddess-11.jpg',
-    samples: ['./sample-11-1.jpg', './sample-11-2.jpg', './sample-11-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-11.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-11.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-11-1.webp`, `${BASE_IMAGE_URL}/sample-11-2.webp`, `${BASE_IMAGE_URL}/sample-11-3.webp`, `${BASE_IMAGE_URL}/sample-11-4.webp`, `${BASE_IMAGE_URL}/sample-11-5.webp`],
     color: '#E60000',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('山茶花神', '十一月 · 晚翠', '山茶', '雪裹开花到春晓，独占三春首。寒冬中炽烈的红。', '笑看万卉独芳菲。', '春晓未至，冰雪封山。\n那抹炽烈的红还在孕育。'),
+      zh: commonLangs(
+        '山茶花神', 
+        '十一月 · 晚翠', 
+        '山茶', 
+        '空气转寒，山色清明。\n\n她在冷意之中盛放，\n红意稳重而深沉。\n\n守至春前。', 
+        '笑看万卉独芳菲。', 
+        '冰雪封山，春晓未临。'
+      ),
       en: commonLangs('Camellia', 'Nov · Winter Verdure', 'Camellia', 'Blooming wrapped in snow until spring dawn, dominating the early spring. The blazing red defying the cold winter.', 'Smiling at all flowers, blooming alone.', 'Spring dawn has not arrived, ice seals the mountain.\nThat blazing red is still nurturing.'),
       fr: commonLangs('Camélia', 'Nov · Verdure d\'Hiver', 'Camélia', 'Fleurissant enveloppé de neige jusqu\'à l\'aube du printemps, dominant le début du printemps. Le rouge ardent défiant l\'hiver froid.', 'Souriant à toutes les fleurs, fleurissant seul.', 'L\'aube du printemps n\'est pas arrivée, la glace scelle la montagne.\nCe rouge ardent est encore en gestation.'),
       ja: commonLangs('山茶花神', '十一月 · 晩翠', '椿', '雪に裹まれて花開き春暁に至り、独り三春の首を占む。寒冬の中の熾烈なる紅。', '万卉を笑い見て独り芳菲たり。', '春暁未だ至らず、氷雪山を封ず。\nあの一抹の熾烈なる紅は未だ孕育の中にあり。'),
@@ -331,13 +452,21 @@ export const GODDESS_DATA: Goddess[] = [
   },
   {
     id: 'narcissus',
-    image: './goddess-12.jpg',
-    samples: ['./sample-12-1.jpg', './sample-12-2.jpg', './sample-12-3.jpg'],
+    image: `${BASE_IMAGE_URL}/goddess-12.webp`,
+    plaqueImage: `${BASE_IMAGE_URL}/plaque-12.webp`,
+    samples: [`${BASE_IMAGE_URL}/sample-12-1.webp`, `${BASE_IMAGE_URL}/sample-12-2.webp`, `${BASE_IMAGE_URL}/sample-12-3.webp`, `${BASE_IMAGE_URL}/sample-12-4.webp`, `${BASE_IMAGE_URL}/sample-12-5.webp`],
     color: '#FFFFFF',
     type: 'TWELVE',
     pvUrl: '', 
     translations: {
-      zh: commonLangs('水仙花神', '十二月 · 凌波', '水仙', '凌波仙子生尘袜，水上轻盈步微月。清雅脱俗，不染尘埃。', '水沉为骨玉为肌。', '凌波微步，罗袜生尘。\n仙子尚在水云之间流连。'),
+      zh: commonLangs(
+        '水仙花神', 
+        '十二月 · 凌波', 
+        '水仙', 
+        '岁终将至，万物静默。\n\n她生于水际，步履轻盈。\n清雅脱俗，不染尘埃。\n\n她是冬日最后的温柔。', 
+        '水沉为骨，玉为肌。', 
+        '水云深处，尚不可近。'
+      ),
       en: commonLangs('Narcissus', 'Dec · Ripple Fairy', 'Narcissus', 'The Ripple Fairy treading on wavelets, stepping lightly on water under the moon. Elegant and refined, unstained by dust.', 'Water as bones, jade as skin.', 'Tiny steps on ripples, dust on silk socks.\nThe fairy still lingers between water and clouds.'),
       fr: commonLangs('Narcisse', 'Déc · Fée des Ondes', 'Narcisse', 'La Fée des Ondes marchant sur les vaguelettes, pas légers sur l\'eau sous la lune. Élégante et raffinée, sans tache de poussière.', 'L\'eau comme os, le jade comme peau.', 'Petits pas sur les ondulations, poussière sur les chaussettes de soie.\nLa fée s\'attarde encore entre l\'eau et les nuages.'),
       ja: commonLangs('水仙花神', '十二月 · 凌波', '水仙', '凌波の仙子、塵襪を生じ、水上軽やかに微月を歩む。清雅脱俗にして、塵埃に染まらず。', '水沈を骨と為し、玉を肌と為す。', '凌波の微歩、羅襪塵を生ず。\n仙子は尚ほ水雲の間に流連す。'),

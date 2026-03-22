@@ -97,12 +97,16 @@ const ShopModal: React.FC<Props> = ({ goddess, currentLang, onClose }) => {
                 <div className="p-4 bg-white/5 border border-white/10 rounded-sm">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-[10px] text-white/40 uppercase tracking-widest">{ui.price}</span>
-                    <span className="text-xl lg:text-2xl text-amber-500 font-light">$19.90 USD</span>
+                    <span className="text-xl lg:text-2xl text-amber-500 font-light">
+                      {/* [修改此处] 价格 */}
+                      $19.90 USD
+                    </span>
                   </div>
                   <p className="text-[11px] text-white/30 leading-relaxed">{ui.paymentGuide}</p>
                 </div>
                 {/* PayPal 按钮已移除 */}
                 <button disabled className="w-full py-4 bg-white/5 text-white/20 font-bold tracking-[0.2em] uppercase rounded-sm cursor-not-allowed border border-white/5">
+                  {/* [修改此处] 维护中按钮文字 */}
                   Maintenance / 维护中
                 </button>
               </div>

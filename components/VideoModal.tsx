@@ -95,6 +95,7 @@ const VideoModal: React.FC<Props> = ({ url, onClose }) => {
                     rel="noopener noreferrer" 
                     className="text-[10px] text-white/60 hover:text-white underline decoration-white/30 hover:decoration-white transition-all"
                 >
+                    {/* [修改此处] 外链跳转提示 */}
                     如果内容无法加载，请点击此处跳转浏览
                 </a>
             </div>

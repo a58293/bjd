@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { GODDESS_DATA, UI_TRANSLATIONS } from './constants';
 import { Goddess, Language } from './types';
@@ -7,9 +8,9 @@ import AtmosphereOverlay from './components/AtmosphereOverlay';
 import ShopModal from './components/ShopModal';
 import VideoModal from './components/VideoModal';
 import WaitingModal from './components/WaitingModal';
-import SelectionBar from './components/SelectionBar';
+import PortalView from './components/PortalView';
 
-type ActiveView = 'GODDESS' | 'ANGEL';
+type ActiveView = 'PORTAL' | 'GODDESS' | 'ANGEL';
 type InfoSection = 'NONE' | 'ABOUT' | 'NOTICE' | 'CUSTOM' | 'CONTACT';
 
 const App: React.FC = () => {
@@ -26,8 +27,8 @@ const App: React.FC = () => {
   const [playingPvUrl, setPlayingPvUrl] = useState<string | null>(null);
   const [showWaitingModal, setShowWaitingModal] = useState(false); 
 
-  // 默认进入花神卷
-  const [activeView, setActiveView] = useState('GODDESS' as ActiveView); 
+  // 默认进入主画面 (PORTAL)
+  const [activeView, setActiveView] = useState('PORTAL' as ActiveView); 
   const [activeInfo, setActiveInfo] = useState('NONE' as InfoSection);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   
@@ -48,50 +49,28 @@ const App: React.FC = () => {
   const isRTL = currentLang === 'ar';
   const isCJK = ['zh', 'ja', 'ko'].includes(currentLang);
   
-  // 字体配置
   let titleFont = 'font-serif font-bold uppercase';
   if (currentLang === 'zh') titleFont = 'font-brush';
   else if (currentLang === 'ja') titleFont = 'font-jp font-bold';
   else if (currentLang === 'ko') titleFont = 'font-kr font-bold';
 
-  /**
-   * 智能排版系统
-   * 根据语言特性和屏幕比例返回最佳样式
-   */
-  const getAdaptiveTitleStyle = (lang: Language): { className: string; style: React.CSSProperties } => {
-      const isArabic = lang === 'ar';
-      const isCJK = ['zh', 'ja', 'ko'].includes(lang);
-
-      if (isArabic) {
-          // 阿拉伯语：强制横排，基于宽度缩放，确保在任何屏幕都不会过大
-          return {
-              className: `text-right leading-tight break-words max-w-[80vw] lg:max-w-[50vw]`,
-              style: {
-                  fontSize: 'clamp(2.5rem, 6vw, 6rem)', // 最小2.5rem，首选视口宽度的6%，最大6rem
-                  direction: 'rtl'
-              }
-          };
-      } else if (isCJK) {
-          // CJK：桌面端竖排，基于高度缩放
-          return {
-              className: `lg:writing-v whitespace-nowrap lg:whitespace-normal leading-normal text-center lg:text-left`,
-              style: {
-                  // 桌面端字号基于视口高度(vh)，移动端基于宽度(vw)
-                  fontSize: 'clamp(2.5rem, 11vh, 8.5rem)' 
-              }
-          };
-      } else {
-          // 西文 (English/French)：改为横排，支持长文字自动换行
-          return {
-              className: `leading-[0.9] tracking-widest text-center lg:text-left whitespace-normal max-w-[90vw] lg:max-w-[50vw] break-words uppercase`,
-              style: {
-                  fontSize: 'clamp(3rem, 5vw, 7rem)'
-              }
-          };
-      }
+  const getResponsiveTitleClass = (name: string, isCJK: boolean) => {
+    if (isCJK) {
+      return 'lg:writing-v text-4xl lg:text-7xl whitespace-nowrap lg:whitespace-normal';
+    }
+    const len = name.length;
+    let sizeClass = '';
+    if (len <= 8) {
+        sizeClass = 'text-4xl lg:text-7xl whitespace-nowrap';
+    } else if (len <= 12) {
+        sizeClass = 'text-3xl lg:text-6xl whitespace-nowrap';
+    } else if (len <= 16) {
+        sizeClass = 'text-2xl lg:text-5xl whitespace-nowrap';
+    } else {
+        sizeClass = 'text-xl lg:text-4xl whitespace-normal leading-relaxed break-words lg:max-h-[70vh]';
+    }
+    return `lg:writing-v-en ${sizeClass} lg:rotate-180 tracking-widest text-center`;
   };
-
-  const titleStyle = getAdaptiveTitleStyle(currentLang);
 
   const performChange = useCallback((newIndex: number) => {
     if (isTransitioningRef.current) return;
@@ -107,6 +86,7 @@ const App: React.FC = () => {
     }, 600);
   }, []);
 
+  // 简化视图切换逻辑
   const handleViewSwitch = (view: ActiveView) => {
     setActiveView(view);
   };
@@ -115,6 +95,7 @@ const App: React.FC = () => {
     let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
     const handleTouchEnd = (e: TouchEvent) => {
+      // 仅在花神模式下允许滑动切换
       if (activeView !== 'GODDESS') return;
       if (activeSample || activeInfo !== 'NONE' || isTransitioningRef.current || showShopModal || showDetail || playingPvUrl || showWaitingModal) return;
       
@@ -132,6 +113,7 @@ const App: React.FC = () => {
     };
 
     const handleWheel = (e: WheelEvent) => {
+      // 仅在花神模式下允许滚动切换
       if (activeView !== 'GODDESS') return;
       if (activeSample || activeInfo !== 'NONE' || isTransitioningRef.current || showShopModal || showDetail || playingPvUrl || showWaitingModal) return;
       if (Math.abs(e.deltaY) < 30) return;
@@ -165,14 +147,6 @@ const App: React.FC = () => {
   }, []);
 
   const renderTitle = (text: string) => {
-    if (isRTL) {
-        return (
-            <span className={`inline-block transition-all duration-[1200ms] ease-out ${isTransitioning ? 'opacity-0 translate-y-8 blur-md' : 'opacity-100 translate-y-0 blur-0'}`}>
-                {text}
-            </span>
-        );
-    }
-    
     if (isCJK) {
       return text.split('').map((char, i) => (
         <span key={i} className={`inline-block transition-all duration-[1200ms] cubic-bezier(0.19, 1, 0.22, 1) ${isTransitioning ? 'opacity-0 translate-y-12 blur-sm scale-95' : 'opacity-100 translate-y-0 blur-0 scale-100'}`} 
@@ -210,31 +184,19 @@ const App: React.FC = () => {
       className={`relative w-screen h-screen transition-all duration-[1500ms] ${activeView === 'GODDESS' ? 'bg-[#050505]' : 'bg-[#040508]'} text-[#e5e5e5] overflow-hidden select-none font-serif`}
     >
       <PetalOverlay active={activeView === 'GODDESS'} color={selectedGoddess.color} goddessId={selectedGoddess.id} />
-      <AtmosphereOverlay active={activeView === 'ANGEL'} mousePos={mousePos} />
-
-      {/* 侧边选择栏 - 增加 isRTL 属性，使其在阿拉伯语下位于左侧 */}
-      {activeView === 'GODDESS' && !showDetail && !showShopModal && !playingPvUrl && !showWaitingModal && (
-        <SelectionBar 
-          selectedId={selectedGoddess.id} 
-          allGoddesses={goddesses} 
-          isRTL={isRTL}
-          onSelect={(g) => {
-             const idx = goddesses.findIndex(item => item.id === g.id);
-             performChange(idx);
-          }} 
-        />
-      )}
+      <AtmosphereOverlay active={activeView === 'ANGEL' || activeView === 'PORTAL'} mousePos={mousePos} />
 
       {/* 背景图层 */}
       <div 
         className={`absolute inset-0 z-10 transition-all duration-[2000ms] ease-in-out ${isTransitioning ? 'opacity-0 scale-[1.02] blur-xl' : 'opacity-100 scale-100'}`}
-        style={{ filter: (showDetail || showShopModal || playingPvUrl || showWaitingModal) ? 'blur(50px) brightness(0.15)' : 'none' }}
+        style={{ filter: (showDetail || showShopModal || playingPvUrl || showWaitingModal) ? 'blur(50px) brightness(0.15)' : 'none', display: activeView === 'PORTAL' ? 'none' : 'block' }}
       >
         <div className="relative w-full h-full">
           <div 
             className="w-full h-full transition-all duration-[12000ms] ease-out"
             style={{ transform: activeView === 'GODDESS' ? `scale(1.1) translate(${(mousePos.x - 0.5) * -20}px, ${(mousePos.y - 0.5) * -20}px)` : 'none' }}
           >
+            {/* 仅在花神卷显示背景图 */}
             {activeView === 'GODDESS' && (
                 <img 
                 key={selectedGoddess.localUrl || selectedGoddess.image}
@@ -248,18 +210,22 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* 顶部视图切换开关 - RTL 下移至左侧 */}
-      <div className={`fixed top-6 lg:top-8 z-50 flex items-center gap-6 transition-all duration-1000 
-          ${isRTL ? 'left-6 lg:left-12' : 'right-6 lg:right-12'}
-          ${showDetail ? 'opacity-0 -translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}
-      `}>
+      {/* 顶部视图切换开关 */}
+      <div className={`fixed top-6 lg:top-8 right-6 lg:right-12 z-50 flex items-center gap-6 transition-all duration-1000 ${showDetail || activeView === 'PORTAL' ? 'opacity-0 -translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
+        <button 
+          onClick={() => handleViewSwitch('PORTAL')}
+          className={`text-[10px] lg:text-[11px] tracking-[0.2em] font-bold uppercase transition-colors duration-500 text-white/30 hover:text-white`}
+        >
+          {isCJK ? '幻境' : 'Portal'}
+        </button>
+        <div className="w-[1px] h-3 bg-white/10" />
         <button 
           onClick={() => handleViewSwitch('GODDESS')}
           className={`text-[10px] lg:text-[11px] tracking-[0.2em] font-bold uppercase transition-colors duration-500 ${activeView === 'GODDESS' ? 'text-amber-500' : 'text-white/30 hover:text-white'}`}
         >
           {ui.viewGoddess}
         </button>
-        <div className="w-1 h-1 rounded-full bg-white/10" />
+        <div className="w-[1px] h-3 bg-white/10" />
         <button 
           onClick={() => handleViewSwitch('ANGEL')}
           className={`text-[10px] lg:text-[11px] tracking-[0.2em] font-bold uppercase transition-colors duration-500 ${activeView === 'ANGEL' ? 'text-amber-500' : 'text-white/30 hover:text-white'}`}
@@ -273,7 +239,7 @@ const App: React.FC = () => {
          lg:top-0 lg:bottom-0 lg:w-32 lg:flex-col lg:justify-center lg:h-full lg:bg-transparent lg:border-none
          bottom-0 left-0 right-0 h-20 flex flex-row items-center justify-evenly bg-black/90 backdrop-blur-xl border-t border-white/10 pb-4 lg:pb-0
          ${isRTL ? 'lg:right-0' : 'lg:left-0'} 
-         ${showDetail ? 'opacity-0 pointer-events-none translate-y-10 lg:translate-y-0' : 'opacity-100 translate-y-0'}
+         ${showDetail || activeView === 'PORTAL' ? 'opacity-0 pointer-events-none translate-y-10 lg:translate-y-0' : 'opacity-100 translate-y-0'}
       `}>
         <div className="flex lg:flex-col flex-row gap-0 lg:gap-14 w-full lg:w-auto justify-evenly lg:justify-start">
           {ui.nav.map((label: string, i: number) => (
@@ -296,38 +262,41 @@ const App: React.FC = () => {
       {/* 主展示区 */}
       <main className={`relative z-30 w-full h-full flex items-center transition-all duration-[1200ms] 
          ${activeView === 'GODDESS' 
-           ? (isRTL ? 'justify-center lg:justify-start lg:pr-48' : 'justify-center lg:justify-start lg:pl-48')
+           ? (isRTL ? 'justify-center lg:justify-end lg:pr-48' : 'justify-center lg:justify-start lg:pl-48')
            : 'justify-center'
          }
       `}>
-        {activeView === 'GODDESS' ? (
-          <div key={selectedGoddess.id} className={`w-full max-w-[90vw] lg:max-w-[70vw] flex flex-col items-center lg:items-start text-center lg:text-left ${isRTL ? 'lg:items-end lg:text-right' : ''}`}>
+        {activeView === 'PORTAL' ? (
+          <PortalView 
+            goddesses={goddesses} 
+            currentLang={currentLang} 
+            onSelect={(view, index) => {
+              if (index !== undefined) {
+                setCurrentIndex(index);
+              }
+              setActiveView(view);
+            }} 
+          />
+        ) : activeView === 'GODDESS' ? (
+          <div key={selectedGoddess.id} className={`w-full max-w-[90vw] lg:max-w-4xl flex flex-col items-center lg:items-start text-center lg:text-left ${isRTL ? 'lg:items-end lg:text-right' : ''}`}>
             <div className={`transition-all duration-1000 ${showDetail ? 'opacity-0 blur-xl translate-x-12 pointer-events-none' : 'opacity-100 translate-x-0'}`}>
               
-              {/* 副标题 & 百花女神特殊标记 */}
+              {/* 副标题 */}
               <div className={`flex items-center justify-center lg:justify-start gap-4 lg:gap-6 mb-6 lg:mb-12 overflow-hidden ${isRTL ? 'flex-row-reverse' : ''}`}>
-                {/* 如果是百花女神，显示特殊Badge */}
-                {selectedGoddess.type === 'HUNDRED' ? (
-                     <div className="px-3 py-1 border border-amber-500/50 rounded-full bg-amber-500/10">
-                        <span className="text-[9px] text-amber-500 tracking-widest font-bold">THE PRIME · 司春</span>
-                     </div>
-                ) : (
-                    <div className="h-[1px] w-8 lg:w-12 bg-white/30" />
-                )}
-                
-                <span className={`uppercase font-light text-white/50 
-                   ${isCJK ? 'text-[12px] tracking-[0.6em] whitespace-nowrap' : 'text-[10px] tracking-[0.3em] whitespace-normal'}
+                <div className="h-[1px] w-8 lg:w-12 bg-white/30" />
+                <span className={`uppercase font-light text-white/50 whitespace-nowrap
+                   ${isCJK ? 'text-[12px] tracking-[0.6em]' : 'text-[10px] tracking-[0.3em]'}
                 `}>{langData.title}</span>
-                
-                {selectedGoddess.type !== 'HUNDRED' && <div className="lg:hidden h-[1px] w-8 bg-white/30" />}
+                <div className="lg:hidden h-[1px] w-8 bg-white/30" />
               </div>
               
-              {/* 主标题 - 应用智能适配样式 */}
-              <div className="group/namebox cursor-pointer mb-8 lg:mb-16 relative" onClick={() => setShowDetail(true)}>
-                <h1 
-                    className={`${titleFont} transition-all duration-700 group-hover/namebox:scale-[1.02] text-white/95 ${titleStyle.className}`}
-                    style={titleStyle.style}
-                >
+              {/* 主标题 */}
+              <div className="group/namebox cursor-pointer mb-8 lg:mb-16" onClick={() => setShowDetail(true)}>
+                <h1 className={`${titleFont} transition-all duration-700 group-hover/namebox:scale-[1.02] text-white/95 leading-tight
+                  ${isCJK 
+                    ? 'text-5xl lg:text-[9rem]' 
+                    : 'text-4xl lg:text-[5.5rem] tracking-wide break-words max-w-[90vw] lg:max-w-4xl' 
+                  }`}>
                   {renderTitle(langData.name)}
                 </h1>
               </div>
@@ -357,11 +326,10 @@ const App: React.FC = () => {
 
                   <div className={`
                     shrink-0 p-8 lg:p-12 flex flex-col items-start lg:items-center justify-center lg:justify-center gap-4 lg:gap-10 relative
-                    border-b border-white/10 lg:border-b-0 lg:w-[18rem]
+                    border-b border-white/10 lg:border-b-0 lg:w-[16rem]
                     ${isRTL ? 'lg:border-l' : 'lg:border-r'}
                   `}>
-                    {/* 详情页标题同样适配 */}
-                    <h2 className={`${titleFont} text-white/90 mt-8 lg:mt-0 ${isCJK ? 'lg:writing-v text-4xl lg:text-7xl' : (isRTL ? 'text-4xl text-right' : 'lg:writing-v-en lg:rotate-180 text-4xl lg:text-6xl text-center')}`}>
+                    <h2 className={`${titleFont} text-white/90 mt-8 lg:mt-0 ${getResponsiveTitleClass(langData.name, isCJK)}`}>
                       {langData.name}
                     </h2>
                     
@@ -379,7 +347,7 @@ const App: React.FC = () => {
                     </div>
                     
                     <div className="shrink-0 mb-8">
-                        <p className={`text-white/60 font-serif font-light
+                        <p className={`text-white/60 font-serif font-light whitespace-pre-line
                            ${isCJK 
                              ? 'text-[15px] lg:text-[16px] tracking-[0.1em] text-justify leading-relaxed' 
                              : 'text-[13px] lg:text-[15px] tracking-[0.05em] leading-[2.2] text-left'
@@ -434,9 +402,10 @@ const App: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="w-full flex justify-center text-center animate-fadeIn px-6">
-            <p className={`font-light text-white opacity-30 whitespace-nowrap
-              ${isCJK ? 'text-[clamp(1.5rem,4vw,5rem)] tracking-[0.5em] lg:tracking-[1em]' : 'text-[clamp(1.2rem,3vw,3rem)] tracking-[0.2em] lg:tracking-[0.5em] uppercase'}`}>
+          <div className="text-center animate-fadeIn px-6">
+            <p className={`font-light text-white opacity-30 
+              ${isCJK ? 'text-3xl lg:text-6xl tracking-[1em] lg:tracking-[2em]' : 'text-xl lg:text-4xl tracking-[0.2em] lg:tracking-[0.5em] uppercase'}`}>
+              {/* [修改此处] "天使卷" 的空状态提示文案 */}
               {isCJK ? '万籁俱寂 静候微芒' : 'Silence Awaits The Light'}
             </p>
           </div>
