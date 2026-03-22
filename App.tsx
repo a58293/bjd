@@ -211,24 +211,24 @@ const App: React.FC = () => {
       </div>
 
       {/* 顶部视图切换开关 */}
-      <div className={`fixed top-6 lg:top-8 right-6 lg:right-12 z-50 flex items-center gap-6 transition-all duration-1000 ${showDetail || activeView === 'PORTAL' ? 'opacity-0 -translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
+      <div className={`fixed top-4 lg:top-8 right-4 lg:right-12 z-50 flex items-center gap-3 lg:gap-6 transition-all duration-1000 ${showDetail || activeView === 'PORTAL' ? 'opacity-0 -translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
         <button 
           onClick={() => handleViewSwitch('PORTAL')}
-          className={`text-[10px] lg:text-[11px] tracking-[0.2em] font-bold uppercase transition-colors duration-500 text-white/30 hover:text-white`}
+          className={`text-[9px] lg:text-[11px] tracking-[0.15em] lg:tracking-[0.2em] font-bold uppercase transition-colors duration-500 text-white/30 hover:text-white`}
         >
           {isCJK ? '幻境' : 'Portal'}
         </button>
-        <div className="w-[1px] h-3 bg-white/10" />
+        <div className="w-[1px] h-2 lg:h-3 bg-white/10" />
         <button 
           onClick={() => handleViewSwitch('GODDESS')}
-          className={`text-[10px] lg:text-[11px] tracking-[0.2em] font-bold uppercase transition-colors duration-500 ${activeView === 'GODDESS' ? 'text-amber-500' : 'text-white/30 hover:text-white'}`}
+          className={`text-[9px] lg:text-[11px] tracking-[0.15em] lg:tracking-[0.2em] font-bold uppercase transition-colors duration-500 ${activeView === 'GODDESS' ? 'text-amber-500' : 'text-white/30 hover:text-white'}`}
         >
           {ui.viewGoddess}
         </button>
-        <div className="w-[1px] h-3 bg-white/10" />
+        <div className="w-[1px] h-2 lg:h-3 bg-white/10" />
         <button 
           onClick={() => handleViewSwitch('ANGEL')}
-          className={`text-[10px] lg:text-[11px] tracking-[0.2em] font-bold uppercase transition-colors duration-500 ${activeView === 'ANGEL' ? 'text-amber-500' : 'text-white/30 hover:text-white'}`}
+          className={`text-[9px] lg:text-[11px] tracking-[0.15em] lg:tracking-[0.2em] font-bold uppercase transition-colors duration-500 ${activeView === 'ANGEL' ? 'text-amber-500' : 'text-white/30 hover:text-white'}`}
         >
           {ui.viewAngel}
         </button>
@@ -237,19 +237,19 @@ const App: React.FC = () => {
       {/* 导航栏 */}
       <nav className={`fixed z-50 transition-all duration-1000 
          lg:top-0 lg:bottom-0 lg:w-32 lg:flex-col lg:justify-center lg:h-full lg:bg-transparent lg:border-none
-         bottom-0 left-0 right-0 h-20 flex flex-row items-center justify-evenly bg-black/90 backdrop-blur-xl border-t border-white/10 pb-4 lg:pb-0
+         bottom-0 left-0 right-0 h-16 lg:h-20 flex flex-row items-center justify-evenly bg-black/80 lg:bg-black/90 backdrop-blur-2xl lg:backdrop-blur-xl border-t border-white/10 pb-2 lg:pb-0
          ${isRTL ? 'lg:right-0' : 'lg:left-0'} 
          ${showDetail || activeView === 'PORTAL' ? 'opacity-0 pointer-events-none translate-y-10 lg:translate-y-0' : 'opacity-100 translate-y-0'}
       `}>
-        <div className="flex lg:flex-col flex-row gap-0 lg:gap-14 w-full lg:w-auto justify-evenly lg:justify-start">
+        <div className="flex lg:flex-col flex-row gap-2 lg:gap-14 w-full lg:w-auto justify-evenly lg:justify-start px-2 lg:px-0">
           {ui.nav.map((label: string, i: number) => (
-            <button key={i} onClick={() => setActiveInfo(['ABOUT','NOTICE','CUSTOM','CONTACT'][i] as InfoSection)} className="group relative flex lg:flex-col flex-col items-center gap-1 lg:gap-3 py-2 w-16 lg:w-auto">
-              <span className="text-[8px] lg:text-[9px] font-black tracking-widest text-white/10 group-hover:text-amber-500/40 transition-all">0{i+1}</span>
+            <button key={i} onClick={() => setActiveInfo(['ABOUT','NOTICE','CUSTOM','CONTACT'][i] as InfoSection)} className="group relative flex lg:flex-col flex-col items-center gap-1 lg:gap-3 py-2 flex-1 lg:flex-none lg:w-auto">
+              <span className="text-[8px] lg:text-[9px] font-black tracking-widest text-white/20 lg:text-white/10 group-hover:text-amber-500/40 transition-all">0{i+1}</span>
               <span className={`
-                transition-all duration-700 text-white/30 group-hover:text-white
+                transition-all duration-700 text-white/40 lg:text-white/30 group-hover:text-white
                 ${isCJK 
-                  ? 'lg:writing-v text-[12px] lg:text-[16px] tracking-[0.2em] lg:tracking-[0.8em]' 
-                  : 'lg:writing-h text-[9px] lg:text-[11px] uppercase tracking-[0.1em] lg:tracking-[0.2em] lg:-rotate-90 lg:w-4 lg:h-24 flex items-center justify-center whitespace-nowrap'
+                  ? 'lg:writing-v text-[10px] lg:text-[16px] tracking-[0.1em] lg:tracking-[0.8em]' 
+                  : 'lg:writing-h text-[8px] lg:text-[11px] uppercase tracking-[0.05em] lg:tracking-[0.2em] lg:-rotate-90 lg:w-4 lg:h-24 flex items-center justify-center whitespace-nowrap'
                 }
               `}>
                 {label}
@@ -278,24 +278,24 @@ const App: React.FC = () => {
             }} 
           />
         ) : activeView === 'GODDESS' ? (
-          <div key={selectedGoddess.id} className={`w-full max-w-[90vw] lg:max-w-4xl flex flex-col items-center lg:items-start text-center lg:text-left ${isRTL ? 'lg:items-end lg:text-right' : ''}`}>
+          <div key={selectedGoddess.id} className={`w-full max-w-[90vw] lg:max-w-4xl flex flex-col items-center lg:items-start text-center lg:text-left ${isRTL ? 'lg:items-end lg:text-right' : ''} mt-8 lg:mt-0`}>
             <div className={`transition-all duration-1000 ${showDetail ? 'opacity-0 blur-xl translate-x-12 pointer-events-none' : 'opacity-100 translate-x-0'}`}>
               
               {/* 副标题 */}
-              <div className={`flex items-center justify-center lg:justify-start gap-4 lg:gap-6 mb-6 lg:mb-12 overflow-hidden ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center justify-center lg:justify-start gap-4 lg:gap-6 mb-4 lg:mb-12 overflow-hidden ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <div className="h-[1px] w-8 lg:w-12 bg-white/30" />
                 <span className={`uppercase font-light text-white/50 whitespace-nowrap
-                   ${isCJK ? 'text-[12px] tracking-[0.6em]' : 'text-[10px] tracking-[0.3em]'}
+                   ${isCJK ? 'text-[11px] lg:text-[12px] landscape:text-[9px] sm:landscape:text-[9px] lg:landscape:text-[12px] tracking-[0.4em] lg:tracking-[0.6em]' : 'text-[9px] lg:text-[10px] landscape:text-[8px] sm:landscape:text-[8px] lg:landscape:text-[10px] tracking-[0.2em] lg:tracking-[0.3em]'}
                 `}>{langData.title}</span>
                 <div className="lg:hidden h-[1px] w-8 bg-white/30" />
               </div>
               
               {/* 主标题 */}
-              <div className="group/namebox cursor-pointer mb-8 lg:mb-16" onClick={() => setShowDetail(true)}>
+              <div className="group/namebox cursor-pointer mb-6 lg:mb-16" onClick={() => setShowDetail(true)}>
                 <h1 className={`${titleFont} transition-all duration-700 group-hover/namebox:scale-[1.02] text-white/95 leading-tight
                   ${isCJK 
-                    ? 'text-5xl lg:text-[9rem]' 
-                    : 'text-4xl lg:text-[5.5rem] tracking-wide break-words max-w-[90vw] lg:max-w-4xl' 
+                    ? 'text-5xl md:text-6xl lg:text-[9rem] landscape:text-4xl sm:landscape:text-4xl md:landscape:text-5xl lg:landscape:text-[9rem]' 
+                    : 'text-3xl md:text-4xl lg:text-[5.5rem] landscape:text-2xl sm:landscape:text-2xl md:landscape:text-3xl lg:landscape:text-[5.5rem] tracking-wide break-words max-w-[90vw] lg:max-w-4xl' 
                   }`}>
                   {renderTitle(langData.name)}
                 </h1>
@@ -303,33 +303,33 @@ const App: React.FC = () => {
 
               {/* 按钮 */}
               <button onClick={() => setShowDetail(true)}
-                className="group relative flex items-center gap-4 lg:gap-10 py-4 lg:py-10 px-6 lg:px-14 transition-all duration-1000 mx-auto lg:mx-0">
+                className="group relative flex items-center gap-3 lg:gap-10 py-3 lg:py-10 px-6 lg:px-14 transition-all duration-1000 mx-auto lg:mx-0 mt-2 lg:mt-0 landscape:py-2 sm:landscape:py-2 lg:landscape:py-10">
                 <div className="absolute inset-0 bg-white/[0.03] backdrop-blur-2xl rounded-sm border border-white/10 group-hover:bg-white/[0.07] group-hover:border-white/20" />
-                <div className="relative w-8 h-8 lg:w-14 lg:h-14 flex items-center justify-center flex-shrink-0">
+                <div className="relative w-8 h-8 lg:w-14 lg:h-14 landscape:w-6 landscape:h-6 sm:landscape:w-6 sm:landscape:h-6 lg:landscape:w-14 lg:landscape:h-14 flex items-center justify-center flex-shrink-0">
                     <div className="w-2 lg:w-3 h-2 lg:h-3 rounded-full animate-pulse" style={{ backgroundColor: selectedGoddess.color, boxShadow: `0 0 25px ${selectedGoddess.color}` }} />
                 </div>
                 <span className={`relative z-10 text-white/90 font-black uppercase whitespace-nowrap
-                   ${isCJK ? 'tracking-[0.3em] lg:tracking-[0.5em] text-[14px] lg:text-[18px]' : 'tracking-[0.2em] text-[10px] lg:text-[14px]'}
+                   ${isCJK ? 'tracking-[0.3em] lg:tracking-[0.5em] text-[12px] lg:text-[18px] landscape:text-[10px] sm:landscape:text-[10px] lg:landscape:text-[18px]' : 'tracking-[0.15em] lg:tracking-[0.2em] text-[10px] lg:text-[14px] landscape:text-[8px] sm:landscape:text-[8px] lg:landscape:text-[14px]'}
                 `}>{ui.openArchive}</span>
               </button>
             </div>
 
             {/* 详情页 */}
             {showDetail && (
-              <div className="fixed inset-0 z-[110] flex items-center justify-center lg:p-12 animate-fadeIn bg-black/90 lg:bg-transparent" onClick={() => setShowDetail(false)}>
+              <div className="fixed inset-0 z-[110] flex items-center justify-center lg:p-12 animate-fadeIn bg-black/95 lg:bg-transparent" onClick={() => setShowDetail(false)}>
                 <div dir={isRTL ? 'rtl' : 'ltr'} 
-                  className="relative w-full h-full lg:max-w-7xl lg:max-h-[85vh] flex flex-col lg:flex-row bg-black/50 lg:backdrop-blur-3xl lg:border lg:border-white/10 lg:shadow-2xl overflow-hidden cursor-default" 
+                  className="relative w-full h-full lg:max-w-7xl lg:max-h-[85vh] flex flex-col lg:flex-row bg-black/60 lg:backdrop-blur-3xl lg:border lg:border-white/10 lg:shadow-2xl overflow-hidden cursor-default" 
                   onClick={e => e.stopPropagation()}
                 >
                   
-                  <button onClick={() => setShowDetail(false)} className="lg:hidden absolute top-6 right-6 z-[120] w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white/70">✕</button>
+                  <button onClick={() => setShowDetail(false)} className="lg:hidden absolute top-4 right-4 z-[120] w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white/70 backdrop-blur-md">✕</button>
 
                   <div className={`
-                    shrink-0 p-8 lg:p-12 flex flex-col items-start lg:items-center justify-center lg:justify-center gap-4 lg:gap-10 relative
+                    shrink-0 pt-12 pb-6 px-6 lg:p-12 flex flex-col items-center lg:items-center justify-center lg:justify-center gap-3 lg:gap-10 relative
                     border-b border-white/10 lg:border-b-0 lg:w-[16rem]
                     ${isRTL ? 'lg:border-l' : 'lg:border-r'}
                   `}>
-                    <h2 className={`${titleFont} text-white/90 mt-8 lg:mt-0 ${getResponsiveTitleClass(langData.name, isCJK)}`}>
+                    <h2 className={`${titleFont} text-white/90 ${getResponsiveTitleClass(langData.name, isCJK)}`}>
                       {langData.name}
                     </h2>
                     
@@ -338,44 +338,44 @@ const App: React.FC = () => {
                     <span className="text-[9px] lg:text-[11px] tracking-[0.3em] lg:tracking-[0.5em] text-white/30 uppercase font-black whitespace-nowrap">{ui.detailLabel}</span>
                   </div>
 
-                  <div className="flex-1 p-8 lg:p-20 flex flex-col relative overflow-y-auto no-scrollbar">
-                    <div className="mb-8 lg:mb-12 shrink-0">
-                        <h3 className={`text-white/90 mb-4 lg:mb-6 font-light
-                           ${isCJK ? 'text-2xl lg:text-3xl tracking-[0.2em]' : 'text-xl lg:text-3xl tracking-[0.1em] uppercase'}
+                  <div className="flex-1 p-6 lg:p-20 flex flex-col relative overflow-y-auto no-scrollbar">
+                    <div className="mb-6 lg:mb-12 shrink-0">
+                        <h3 className={`text-white/90 mb-3 lg:mb-6 font-light
+                           ${isCJK ? 'text-xl lg:text-3xl tracking-[0.2em]' : 'text-lg lg:text-3xl tracking-[0.1em] uppercase'}
                         `}>{langData.shortDesc}</h3>
-                        <div className="w-16 lg:w-20 h-[2px]" style={{ background: selectedGoddess.color }} />
+                        <div className="w-12 lg:w-20 h-[2px]" style={{ background: selectedGoddess.color }} />
                     </div>
                     
-                    <div className="shrink-0 mb-8">
-                        <p className={`text-white/60 font-serif font-light whitespace-pre-line
+                    <div className="shrink-0 mb-6 lg:mb-8">
+                        <p className={`text-white/70 font-serif font-light whitespace-pre-line
                            ${isCJK 
-                             ? 'text-[15px] lg:text-[16px] tracking-[0.1em] text-justify leading-relaxed' 
-                             : 'text-[13px] lg:text-[15px] tracking-[0.05em] leading-[2.2] text-left'
+                             ? 'text-[14px] lg:text-[16px] tracking-[0.08em] lg:tracking-[0.1em] text-justify leading-[2] lg:leading-relaxed' 
+                             : 'text-[13px] lg:text-[15px] tracking-[0.05em] leading-[1.8] lg:leading-[2.2] text-left'
                            }
                            ${isRTL ? 'text-right' : ''}
                         `}>{langData.description}</p>
                     </div>
 
                     {/* 移动端素材图 */}
-                    <div className="lg:hidden w-full flex gap-4 overflow-x-auto no-scrollbar mb-8 pb-4">
+                    <div className="lg:hidden w-full flex gap-3 overflow-x-auto no-scrollbar mb-6 pb-2">
                         {selectedGoddess.samples?.map((s, i) => (
                            <img 
                               key={i} 
                               src={s} 
                               onClick={() => setActiveSample(s)} 
-                              className="h-32 aspect-square object-cover rounded-sm border border-white/10" 
+                              className="h-24 aspect-square object-cover rounded-sm border border-white/10" 
                               alt="" 
                            />
                         ))}
                     </div>
 
-                    <div className="mt-auto pt-6 lg:pt-10 border-t border-white/10 flex flex-col lg:flex-row items-center justify-between gap-6 shrink-0 pb-20 lg:pb-0">
-                        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 w-full lg:w-auto">
-                            <button onClick={handlePlayPV} className="w-full lg:w-auto px-6 lg:px-8 py-4 rounded-full bg-white/5 border border-white/10 text-[12px] tracking-widest hover:bg-white/10 transition-all uppercase whitespace-nowrap">{ui.enterRealm}</button>
-                            <button onClick={() => setShowShopModal(true)} className="w-full lg:w-auto px-6 lg:px-8 py-4 rounded-full bg-white/5 border border-white/10 text-[12px] tracking-widest hover:bg-white/10 transition-all uppercase whitespace-nowrap">{ui.visitShop}</button>
+                    <div className="mt-auto pt-6 lg:pt-10 border-t border-white/10 flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-6 shrink-0 pb-8 lg:pb-0">
+                        <div className="flex flex-col lg:flex-row gap-3 lg:gap-6 w-full lg:w-auto">
+                            <button onClick={handlePlayPV} className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white/5 border border-white/10 text-[11px] lg:text-[12px] tracking-widest hover:bg-white/10 transition-all uppercase whitespace-nowrap">{ui.enterRealm}</button>
+                            <button onClick={() => setShowShopModal(true)} className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white/5 border border-white/10 text-[11px] lg:text-[12px] tracking-widest hover:bg-white/10 transition-all uppercase whitespace-nowrap">{ui.visitShop}</button>
                         </div>
-                        <div className="text-right w-full lg:w-auto">
-                           <span className="text-[14px] lg:text-[16px] font-bold tracking-widest" style={{ color: selectedGoddess.color }}>{langData.flower}</span>
+                        <div className="text-center lg:text-right w-full lg:w-auto mt-2 lg:mt-0">
+                           <span className="text-[13px] lg:text-[16px] font-bold tracking-widest" style={{ color: selectedGoddess.color }}>{langData.flower}</span>
                         </div>
                     </div>
                   </div>
@@ -413,22 +413,22 @@ const App: React.FC = () => {
       </main>
 
       {/* 语言切换 & 功能按钮 */}
-      <div className={`fixed z-[60] flex flex-col gap-6 
-          top-6 left-6 items-start
+      <div className={`fixed z-[60] flex flex-col gap-4 lg:gap-6 
+          bottom-20 left-4 items-start
           lg:top-auto lg:left-auto lg:bottom-12 lg:right-12 lg:items-end
           ${isRTL ? 'lg:left-12 lg:right-auto' : ''}
       `}>
-        <div className="flex flex-col lg:items-end items-start gap-4">
-          <div className={`flex flex-col gap-3 transition-all duration-700 ${showLangMenu ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 lg:translate-y-12 pointer-events-none'}`}>
+        <div className="flex flex-col lg:items-end items-start gap-3 lg:gap-4">
+          <div className={`flex flex-col gap-2 lg:gap-3 transition-all duration-700 ${showLangMenu ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 lg:translate-y-12 pointer-events-none'}`}>
             {languages.map(lang => (
               <button key={lang.code} onClick={() => { setCurrentLang(lang.code); setShowLangMenu(false); }}
-                className={`w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center border text-[10px] lg:text-[11px] font-bold transition-all ${currentLang === lang.code ? 'bg-amber-500 border-amber-500 text-black shadow-[0_0_20px_rgba(245,158,11,0.4)]' : 'bg-black/70 border-white/10 text-white/50 hover:border-white/40'}`}>
+                className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full flex items-center justify-center border text-[9px] lg:text-[11px] font-bold transition-all ${currentLang === lang.code ? 'bg-amber-500 border-amber-500 text-black shadow-[0_0_20px_rgba(245,158,11,0.4)]' : 'bg-black/70 border-white/10 text-white/50 hover:border-white/40'}`}>
                 {lang.label}
               </button>
             ))}
           </div>
           <div className="flex items-center gap-3 lg:gap-5">
-             <button onClick={() => setShowLangMenu(!showLangMenu)} className="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-black/60 border border-white/10 backdrop-blur-2xl flex items-center justify-center text-[10px] lg:text-[13px] text-white/80 hover:border-white/50 transition-all uppercase">
+             <button onClick={() => setShowLangMenu(!showLangMenu)} className="px-3 py-1.5 lg:px-4 lg:py-2 rounded-full bg-black/40 border border-white/10 backdrop-blur-md flex items-center justify-center text-[10px] lg:text-[12px] text-white/60 hover:text-white hover:bg-white/10 hover:border-white/30 transition-all uppercase tracking-widest">
                 {ui.lang}
              </button>
           </div>

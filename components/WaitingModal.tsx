@@ -14,7 +14,7 @@ const WaitingModal: React.FC<Props> = ({ message, onClose, color }) => {
       onClick={onClose}
     >
       <div 
-        className="bg-[#0c0c10] border border-white/10 p-10 lg:p-16 max-w-lg text-center relative shadow-2xl rounded-sm mx-6" 
+        className="bg-[#0c0c10] border border-white/10 p-8 lg:p-16 max-w-lg text-center relative shadow-2xl rounded-sm mx-6" 
         style={{ boxShadow: `0 0 60px ${color}15`, borderColor: `${color}30` }}
         onClick={e => e.stopPropagation()}
       >

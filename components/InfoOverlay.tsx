@@ -72,23 +72,23 @@ const InfoOverlay: React.FC<Props> = ({ section, onClose }) => {
   const getLangText = (obj: any) => obj['zh'] || 'Text missing';
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-3xl flex items-center justify-center p-6 lg:p-12 animate-fadeIn" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-3xl flex items-center justify-center p-4 lg:p-12 animate-fadeIn" onClick={onClose}>
       <div 
-        className="bg-[#0c0c10]/95 border border-white/10 w-full max-w-3xl p-10 lg:p-20 relative overflow-hidden shadow-2xl rounded-sm"
+        className="bg-[#0c0c10]/95 border border-white/10 w-full max-w-3xl p-8 lg:p-20 relative overflow-hidden shadow-2xl rounded-sm"
         onClick={e => e.stopPropagation()}
       >
-        <header className="mb-10 lg:mb-16">
-          <h2 className="font-brush text-4xl lg:text-6xl text-white mb-4">{getLangText(data.title)}</h2>
-          <div className="w-12 h-1 bg-amber-500/40" />
+        <header className="mb-8 lg:mb-16">
+          <h2 className="font-brush text-3xl lg:text-6xl text-white mb-4">{getLangText(data.title)}</h2>
+          <div className="w-8 lg:w-12 h-1 bg-amber-500/40" />
         </header>
 
         <div className="max-h-[50vh] overflow-y-auto no-scrollbar">
-          <p className="text-base lg:text-xl text-white/70 leading-relaxed lg:leading-[2.5] tracking-wide font-light font-serif whitespace-pre-line">
+          <p className="text-[15px] lg:text-xl text-white/70 leading-[2] lg:leading-[2.5] tracking-wide font-light font-serif whitespace-pre-line">
             {getLangText(data.body)}
           </p>
         </div>
 
-        <button onClick={onClose} className="mt-12 text-[10px] tracking-[0.5em] text-white/20 hover:text-white uppercase transition-all">
+        <button onClick={onClose} className="mt-8 lg:mt-12 text-[10px] tracking-[0.5em] text-white/20 hover:text-white uppercase transition-all">
           Exit Overlay
         </button>
       </div>

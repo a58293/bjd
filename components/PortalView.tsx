@@ -259,14 +259,14 @@ const PortalView: React.FC<PortalViewProps> = ({ goddesses, currentLang, onSelec
         }`}
         onClick={() => setPhase('selection')}
       >
-        <h1 className={`${titleFont} text-5xl lg:text-7xl text-white tracking-[0.2em] mb-8 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]`}>
+        <h1 className={`${titleFont} text-4xl lg:text-7xl text-white tracking-[0.2em] mb-6 lg:mb-8 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]`}>
           {isCJK ? '开启 · 花神卷' : 'Open · Floral Scroll'}
         </h1>
         <div className="flex flex-col items-center gap-4 opacity-70 animate-pulse">
-          <span className="text-white tracking-[0.5em] text-sm lg:text-base uppercase font-light">
+          <span className="text-white tracking-[0.3em] lg:tracking-[0.5em] text-xs lg:text-base uppercase font-light">
             {isCJK ? '四时有序，万卉循时而开' : 'Seasons in order, flowers bloom in time'}
           </span>
-          <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent" />
+          <div className="w-[1px] h-8 lg:h-12 bg-gradient-to-b from-white to-transparent" />
         </div>
       </div>
 
@@ -277,7 +277,7 @@ const PortalView: React.FC<PortalViewProps> = ({ goddesses, currentLang, onSelec
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
-        className={`absolute z-40 w-full h-full flex items-center overflow-x-auto overflow-y-hidden no-scrollbar px-[calc(50vw-96px)] lg:px-[calc(50vw-128px)] gap-8 lg:gap-16 transition-all duration-[2000ms] ease-out cursor-grab active:cursor-grabbing ${
+        className={`absolute z-40 w-full h-full flex items-center overflow-x-auto overflow-y-hidden no-scrollbar px-[calc(50vw-80px)] md:px-[calc(50vw-96px)] lg:px-[calc(50vw-128px)] landscape:px-[calc(50vw-64px)] sm:landscape:px-[calc(50vw-64px)] md:landscape:px-[calc(50vw-64px)] lg:landscape:px-[calc(50vw-128px)] gap-6 md:gap-8 lg:gap-16 transition-all duration-[2000ms] ease-out cursor-grab active:cursor-grabbing ${
           phase === 'selection' ? 'opacity-100 translate-y-0 delay-500' : 'opacity-0 translate-y-32 pointer-events-none'
         }`}
         style={{ transformStyle: 'preserve-3d' }}
@@ -286,45 +286,45 @@ const PortalView: React.FC<PortalViewProps> = ({ goddesses, currentLang, onSelec
           <div 
             key={goddess.id}
             ref={(el) => itemRefs.current[index] = el}
-            className="relative shrink-0 w-48 h-[65vh] lg:w-64 lg:h-[75vh] cursor-pointer group"
+            className="relative shrink-0 w-40 h-[55vh] md:w-48 md:h-[60vh] lg:w-64 lg:h-[75vh] landscape:w-32 landscape:h-[65vh] sm:landscape:w-32 sm:landscape:h-[65vh] md:landscape:w-32 md:landscape:h-[65vh] lg:landscape:w-64 lg:landscape:h-[75vh] cursor-pointer group"
             onClick={() => handlePlaqueClick(index)}
             style={{ transformStyle: 'preserve-3d' }}
           >
             {/* Inner Wrapper for styling */}
-            <div className="absolute inset-0 rounded-sm overflow-hidden border border-white/20 bg-white/5 backdrop-blur-md shadow-[0_0_30px_rgba(0,0,0,0.5)] group-hover:border-white/60 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-500">
+            <div className="absolute inset-0 rounded-md overflow-hidden border border-white/20 bg-white/5 backdrop-blur-md shadow-[0_0_30px_rgba(0,0,0,0.5)] group-hover:border-white/60 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-500">
               {/* Plaque Background Image */}
               <img 
                 src={goddess.plaqueImage || goddess.image || `https://picsum.photos/seed/flower${index}/400/800`} 
                 alt={goddess.id} 
-                className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-80 group-hover:scale-110 transition-all duration-[1500ms] ease-out"
+                className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-80 group-hover:scale-110 transition-all duration-[1500ms] ease-out"
                 referrerPolicy="no-referrer"
                 onError={(e) => { e.currentTarget.src = `https://picsum.photos/seed/flower${index}/400/800`; }}
               />
               
               {/* Plaque Inner Gradient for Jade effect */}
-              <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/20 via-transparent to-black/80 group-hover:from-emerald-900/40 transition-colors duration-700 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/30 via-black/20 to-black/90 group-hover:from-emerald-900/50 transition-colors duration-700 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]" />
               
               {/* Plaque Content */}
-              <div className="absolute inset-0 p-6 flex flex-col items-center justify-between">
+              <div className="absolute inset-0 p-4 md:p-6 flex flex-col items-center justify-between">
                 {/* Top Ornament (Jade hole/tassel representation) */}
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-2 h-2 rounded-full border border-white/40" />
-                  <div className="w-[1px] h-6 bg-white/20" />
+                <div className="flex flex-col items-center gap-2 mt-2">
+                  <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full border border-white/50" />
+                  <div className="w-[1px] h-4 md:h-6 bg-white/30" />
                 </div>
                 
                 {/* Name */}
-                <div className="flex-1 flex items-center justify-center py-8">
-                  <span className={`text-white/90 text-3xl lg:text-4xl tracking-[0.3em] drop-shadow-lg group-hover:text-white group-hover:scale-110 transition-all duration-500 ${titleFont} ${isCJK ? 'writing-v' : 'writing-v-en rotate-180'}`}>
+                <div className="flex-1 flex items-center justify-center py-4 md:py-8">
+                  <span className={`leading-none text-white/95 text-2xl md:text-3xl lg:text-4xl landscape:text-xl sm:landscape:text-xl md:landscape:text-xl lg:landscape:text-4xl tracking-[0.2em] lg:tracking-[0.3em] drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] group-hover:text-white group-hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.8)] group-hover:scale-110 transition-all duration-500 ${titleFont} ${isCJK ? 'writing-v' : 'writing-v-en rotate-180'}`}>
                     {goddess.translations[currentLang]?.name || goddess.id}
                   </span>
                 </div>
                 
                 {/* Bottom Ornament */}
-                <div className="flex flex-col items-center gap-3 mt-4">
-                  <span className="text-white/40 text-[10px] tracking-widest uppercase group-hover:text-white/80 transition-colors">
+                <div className="flex flex-col items-center gap-2 md:gap-3 mb-2">
+                  <span className="text-white/50 text-[9px] md:text-[10px] landscape:text-[8px] sm:landscape:text-[8px] md:landscape:text-[8px] lg:landscape:text-[10px] tracking-widest uppercase group-hover:text-white/90 transition-colors">
                     {index === 0 ? (isCJK ? '百花之首' : 'Origin') : (isCJK ? `${index}月令` : `Month ${index}`)}
                   </span>
-                  <div className="w-8 h-[1px] bg-white/40" />
+                  <div className="w-6 md:w-8 h-[1px] bg-white/30" />
                 </div>
               </div>
             </div>
@@ -334,13 +334,13 @@ const PortalView: React.FC<PortalViewProps> = ({ goddesses, currentLang, onSelec
       
       {/* Back button when in selection phase */}
       <div 
-        className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-1000 ${
-          phase === 'selection' ? 'opacity-100 delay-[1500ms]' : 'opacity-0 pointer-events-none'
+        className={`absolute bottom-8 lg:bottom-12 left-1/2 -translate-x-1/2 z-50 transition-all duration-1000 ${
+          phase === 'selection' ? 'opacity-100 delay-[1000ms]' : 'opacity-0 pointer-events-none'
         }`}
       >
         <button 
           onClick={() => setPhase('intro')}
-          className="text-white/40 hover:text-white text-xs tracking-[0.3em] uppercase transition-colors"
+          className="px-6 py-2.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md text-white/70 hover:text-white hover:bg-white/10 hover:border-white/40 text-[10px] lg:text-xs tracking-[0.3em] uppercase transition-all"
         >
           {isCJK ? '返回' : 'Back'}
         </button>
